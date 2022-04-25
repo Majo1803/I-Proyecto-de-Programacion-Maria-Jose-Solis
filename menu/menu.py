@@ -344,21 +344,23 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
        Bienvenido de nuevo, qué acción desea reaalizar:
 
           """)
-       print ("1) Agregar un registro ")
-       print ("2) Ver un registro ")
+       print ("1) Agregar carreras a mi registro ")
+       print ("2) Ver mi registro ")
        print ("3) Ver y registrar cursos disponibles")
-       print ("4) Agregar actividades a tu registro")
-
+       print ("4) Agregar actividades a mi registro")
+       print ("5) Generar reporte de actividades")
        opt_estudiante=int (input("\n\n\tQué desea: "))
        match opt_estudiante:
               case 1:
-                   agregar_registro_estudiante(l_estudiante)
+                   agregar_carreras_estudiante(l_carreras,l_estudiante)
               case 2:
                    mostrar_estudiante(l_estudiante) 
               case 3:    
                   cursos(l_cursos,l_estudiante)
               case 4:
                   agregar_actividades_estudiante(dict_actividades,l_estudiante) 
+              case 5:
+                   reporte(l_estudiante)  
 #----------------------------------------------------------------------------------------------------------------------------------------
 #******************************************************************************************************************************************
 
@@ -368,10 +370,10 @@ def cursos(l_cursos,l_estudiante):
     print (l_cursos)
     sleep (2)
     print ("""
-    Para ver los detalles del curso, digite el número correspondiente a la posición del registro del curso
+    Para ver los detalles del curso, digite el número correspondiente a la posición del registro del curso, el primer curso que se muestra corresponde a la posición 1:
     
     """)
-    opt_cursos=int(input("\n\n\tDijite la opcion: "))
+    opt_cursos=int(input("\n\n\tDijite la posición: "))
     opt_cursos=opt_cursos-1
     sleep(2)
     match opt_cursos:
@@ -500,6 +502,7 @@ def cursos(l_cursos,l_estudiante):
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------FUNCION PARA QUE UN ESTUDIANTE SE REGISTRE------------------------------------------------------------------------
+#NOTA: Esta función solo registrará el nombre de usuario,nombre completo y contraseña del estudiante, el registro de las carreras que desee matrícular se hará cuando el estudiante ya tenga una cuenta en el sistema
 
 def agregar_registro_estudiante(l_estudiante): 
     usuario= input("Escriba su usuario: ")
@@ -507,69 +510,66 @@ def agregar_registro_estudiante(l_estudiante):
     l_estudiante[usuario]['nombre'] = input("Escriba su nombre: ")
     l_estudiante[usuario]['nombre']=l_estudiante[usuario]['nombre']
     l_estudiante[usuario]['password'] = cifrar(obtener_calve("Dijite una contraseña(solo caracteres numéricos): "))
-    l_estudiante[usuario]['carrera']=()
-    carrera=("Administración de empresas","Agronomía","Ing. Computación","Ing. Electrónica")
-    carrera=tuple(carrera)
-    print ("1", (carrera[0]))
-    print ("2", (carrera[1]))
-    print("3", (carrera[2]))
-    print("4", (carrera[3]))
-    print("""
-    A cual carrera pertece:
-
-""")
-    opt_carreras=int (input("\n\n\tDijite la opcion: "))
-    match opt_carreras:
-        case 1:
-            l_estudiante[usuario]["carrera"]=carrera [0]
-        case 2:
-            l_estudiante[usuario]["carrera"]=carrera [1]
-        case 3:
-            l_estudiante[usuario]["carrera"]=carrera [2]
-        case 4:
-            l_estudiante[usuario]["carrera"]=carrera [3]
-
-    if ("S"==input('Cursas alguna otra carrera?Puede registrar un máximo de dos carreras, Digita S para Si o N para no:').upper()):
-        l_estudiante[usuario]["Segunda carrera"]=()
-        carrera_extra=("Administración de empresas","Agronomía","Ing. Computación","Ing. Electrónica")
-        carrera_extra=tuple(carrera_extra)
-        print ("1", (carrera_extra[0]))
-        print ("2", (carrera_extra[1]))
-        print("3", (carrera_extra[2]))
-        print("4", (carrera_extra[3]))
-        print("""
-        A cual carrera pertece:
-
-""")
-        opt_carrera_extra=int (input("\n\n\tDijite la opcion: "))
-        match opt_carrera_extra:
-            case 1:
-                l_estudiante[usuario]["Segunda carrera"]=carrera_extra[0]
-            case 2:
-                l_estudiante[usuario]["Segunda carrera"]=carrera_extra[1]
-            case 3:
-                l_estudiante[usuario]["Segunda carrera"]=carrera_extra[2]
-            case 4:
-               l_estudiante[usuario]["Segunda carrera"]=carrera_extra[3]
-            
-    if ("N"==input ("Cursas alguna otra carrera? Digita S para Si o N para no:").upper()):
-       print ("""Registro creado:
-     """)
-       print(l_estudiante[usuario]) 
-       print ("""
-      Lista de administradores ahora::
+    print(l_estudiante[usuario]) 
+    print ("""
+      Lista de estudiantes ahora:
         """)
-       print(l_estudiante)
-       print ("""
+    print(l_estudiante)
+    print ("""
       Desea continuar
     
     """)
-       print("1)si")
-       print("2)no")
-       opt_cont=int(input("\n\n\tDijite la opcion: "))
-       match opt_cont:
+    print("1)si")
+    print("2)no")
+    opt_cont=int(input("\n\n\tDijite la opcion: "))
+    match opt_cont:
                 case 1:
-                     print(autenticacion_estudiante(l_estudiante))
+                     print(menu_principal (l_admin,l_estudiante,l_cursos,l_carreras,dict_actividades))
+
+#---------------------------Función para que el estudiante agregue carreras a su registro-----------------------------------
+def agregar_carreras_estudiante(l_carreras,l_estudiante):
+   l_carreras_estu={}
+   continuar=True
+   while continuar:
+      print("""
+      Estos son las carreras disponibles por el momento:
+      
+      """)
+      print(l_carreras)
+      print("")
+      item = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior: '))
+      item=int(item)
+      carrera_escogida=l_carreras[item]
+      l_carreras_estu[item] = carrera_escogida
+      print("")
+      continuar = input('¿Quieres añadir otra carrera a tu registro (Si/No)? ') == "Si"
+   for item in l_carreras_estu.items():
+      print("""
+      esta es la lista de carreras que escogió agregar a su registro:
+      
+      """,l_carreras_estu, """
+      
+      """)
+
+   usuario = input("Escriba su usuario: ")
+   usuario=usuario
+   print(l_estudiante[usuario])
+   #contraseña = input("Escriba su contraseña: ")
+   #for usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
+      #print("""
+      #usuario valido
+      #""")
+   l_estudiante[usuario]["carrera/as: "]=l_carreras_estu
+   print("""
+      Este es su nuevo registro:
+      """)
+   print(l_estudiante[usuario])
+   sleep(2)
+   print("""
+   Volviendo al menu.........""")
+   sleep(2)
+   print(inicio_estudiante_cc (l_estudiante,l_cursos))
+ 
    
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------FUNCION PARA LA OPCION DE MOSTRAR UN REGISTRO DEL ESTUDIANTE---------------------------------------------------
@@ -787,13 +787,14 @@ def agregar_actividades_estudiante(dict_actividades,l_estudiante):
             Brindanos los siguientes datos para el registro por favor
             """)
             tipo_actividad=input("Escriba el tipo de actividad para poder empezar a registrarla (Ejemplo: proyecto,tarea,repaso):  ")
+            tipo_actividad=tipo_actividad
             dict_actividades[tipo_actividad]={}
             dict_actividades[tipo_actividad]['actividad a realizar'] = input("Escriba la actividad que va a realizar (Ejemplo:Tarea Matemática): ")
             dict_actividades[tipo_actividad]["curso asociado"]=curso_para_actividad
-            dict_actividades[tipo_actividad]['fecha de inicio'] = input('\n Ingrese una fecha de inicio en formato "aaaa/mm/dd"...: ')
-            dict_actividades[tipo_actividad]['fecha de inicio']= datetime.strptime(dict_actividades[numero_actividad]['fecha de inicio'], '%Y/%m/%d').strftime('%d-%m-%Y')
-            dict_actividades[tipo_actividad]['fecha de finalización'] = input('\n Ingrese una fecha de finalizacion en formato "aaaa/mm/dd"...: ')
-            dict_actividades[tipo_actividad]['fecha de finalización']= datetime.strptime(dict_actividades[numero_actividad]['fecha de finalización'], '%Y/%m/%d').strftime('%d-%m-%Y')
+            dict_actividades[tipo_actividad]['fecha de inicio'] = input('\n Ingrese una fecha de inicio en formato "aaaa/mm/dd": ')
+            dict_actividades[tipo_actividad]['fecha de inicio']= datetime.strptime(dict_actividades[tipo_actividad]['fecha de inicio'], '%Y/%m/%d').strftime('%d-%m-%Y')
+            dict_actividades[tipo_actividad]['fecha de finalización'] = input('\n Ingrese una fecha de finalizacion en formato "aaaa/mm/dd": ')
+            dict_actividades[tipo_actividad]['fecha de finalización']= datetime.strptime(dict_actividades[tipo_actividad]['fecha de finalización'], '%Y/%m/%d').strftime('%d-%m-%Y')
             dict_actividades[tipo_actividad]['horario'] = input("Escriba el día y la hora en la que realizará la actividad (Ejemplo: Lunes de 7 a 8 p.m): ")
             dict_actividades[tipo_actividad]['semana']=int(input("Escriba el número de la semana lectiva en la que realizará la actividad: "))
             print ("""------------------🧐validando registro de la actividad 🧐-------------------""")
@@ -850,10 +851,10 @@ def agregar_actividades_estudiante(dict_actividades,l_estudiante):
                         print (l_estudiante)
          else:
             print ("lo sentimos, el curso que introdujo no se encuentra en el registro de sus cursos") 
-         if curso_para_actividad in l_estudiante[usuario]["cursos aprobados"]["nombre"]: 
-             print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra aprobado")
-         if curso_para_actividad in l_estudiante[usuario]["cursos reprobados"]["nombre"]: 
-            print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra reprobado")
+         #if curso_para_actividad in l_estudiante[usuario]["cursos aprobados"]["nombre"]: 
+          #   print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra aprobado")
+         #if curso_para_actividad in l_estudiante[usuario]["cursos reprobados"]["nombre"]: 
+          #  print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra reprobado")
              
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------FUNCIÓN DE REPORTE DE ACTIVIDADES------------------------------------------------------------
