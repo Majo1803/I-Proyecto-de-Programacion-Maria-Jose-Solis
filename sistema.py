@@ -16,10 +16,9 @@ l_admin={
     }
  } 
 l_estudiante={
-        "maj": {
+        "majo": {
             "nombre": "Maria Solis",
             "password": cifrar("109"),
-            "carrera":"Agronomía"
     }
  } 
 l_cursos= (

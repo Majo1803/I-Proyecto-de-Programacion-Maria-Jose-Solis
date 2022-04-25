@@ -346,9 +346,12 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
           """)
        print ("1) Agregar carreras a mi registro ")
        print ("2) Ver mi registro ")
-       print ("3) Ver y registrar cursos disponibles")
-       print ("4) Agregar actividades a mi registro")
-       print ("5) Generar reporte de actividades")
+       print ("3) Ver lista de cursos disponibles y registrar cursos")
+       print ("4) Ver lista de cursos y registrar cursos aprobados")
+       print ("5) Ver lista de cursos y registrar cursos reprobados")
+       print ("6) Ver lista de cursos y registrar cursos pendientes")
+       print ("7) Agregar actividades a mi registro")
+       print ("8) Generar reporte de actividades")
        opt_estudiante=int (input("\n\n\tQué desea: "))
        match opt_estudiante:
               case 1:
@@ -356,149 +359,43 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
               case 2:
                    mostrar_estudiante(l_estudiante) 
               case 3:    
-                  cursos(l_cursos,l_estudiante)
-              case 4:
+                  agregar_cursos_estudiante(l_cursos,l_estudiante)
+              case 6:
                   agregar_actividades_estudiante(dict_actividades,l_estudiante) 
-              case 5:
+              case 7:
                    reporte(l_estudiante)  
 #----------------------------------------------------------------------------------------------------------------------------------------
-#******************************************************************************************************************************************
-
+#****************************************************************************************************************************************
 
 #----------------------------FUNCION PARA QUE EL ESTUDIANTE MATRICULE UN CURSO-----------------------------------------------------------
-def cursos(l_cursos,l_estudiante):
-    print (l_cursos)
-    sleep (2)
-    print ("""
-    Para ver los detalles del curso, digite el número correspondiente a la posición del registro del curso, el primer curso que se muestra corresponde a la posición 1:
-    
-    """)
-    opt_cursos=int(input("\n\n\tDijite la posición: "))
-    opt_cursos=opt_cursos-1
-    sleep(2)
-    match opt_cursos:
-        case opt_cursos:
-            print (l_cursos[opt_cursos])
-            sleep (2)
-            print("desea usted registrar este curso en su sistema?")
-            print ("1) si")
-            print ("2) no")
-            opt_registrar_c0=int(input("\n\n\tDijite la opcion: "))
-            match opt_registrar_c0:
-                case 1:
-                     usuario = input("Escriba su usuario: ")
-                     contraseña = cifrar(obtener_calve("Escriba su contraseña: "))
-                     if usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
-                        print("usuario valido, bienvenido")
-                        if l_estudiante[usuario]['carrera'] in l_cursos[opt_cursos]['carreras']:
-                             print("su carrera es valida para este curso")
-                             l_estudiante[usuario]["cursos"]=l_cursos[opt_cursos]
-                             sleep(3)
-                             print ("""
-                            se ha agregado el curso a su registro:
-             
-                                """)
-                             print (l_estudiante[usuario])
-                             sleep (3)  
-                             print("desea usted registrar otro curso en su sistema?")
-                             print ("1) si")
-                             print ("2) no")
-                             opt_otro_curso=int(input("\n\n\tDijite la opcion: "))
-                             match opt_otro_curso:
-                                 case 1:
-                                     return cursos(l_cursos,l_estudiante)
-                                 case 2:
-                                     inicio_estudiante_cc(l_estudiante,l_cursos)    
-                             sleep (3) 
-                        else :
-                             print("lo sentimos, no es posible registrar este curso, pues no pertenece a su carrera")
-                             sleep(3) 
-                     else:
-                         print("usuario o contraseña invalida")   
-
-                     print (l_estudiante)
-
-                case 2:
-                    print ("Ya habías matriculado este curso anteriormente?")
-                    print ("1) si")
-                    print ("2) no")
-                    opt_curso_estado=int(input("\n\n\tDijite la opcion: "))
-                    match opt_curso_estado:
-                        case 1:
-                            print ("Cual es su estado en este curso?")
-                            print ("1) aprobado")
-                            print ("2) reprobado")
-                            opt_estado_llevado=int(input("\n\n\tDijite la opcion: "))
-                            match opt_estado_llevado :
-                                case 1:
-                                        usuario = input("Escriba su usuario: ")
-                                        contraseña = cifrar(obtener_calve("Escriba su contraseña: "))
-                                        if usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
-                                            print("usuario valido, bienvenido")
-                                            if l_estudiante[usuario]['carrera'] in l_cursos[opt_cursos]['carreras']:
-                                                print("su carrera es valida para este curso")
-                                                l_estudiante[usuario]["cursos aprobados"]=l_cursos[opt_cursos]
-                                                sleep(2)
-                                                print ("""
-                                                se ha agregado el curso aprobado a su registro:
-                                                
-                                                """)
-                                                print (l_estudiante[usuario])
-                                                sleep (5)
-                                            else:
-                                                    print("lo sentimos, no es posible registrar este curso, pues no pertenece a su carrera")
-                                                    sleep(3)
-                                        else:
-                                                print("usuario o contraseña invalida")
-
-                                        print (l_estudiante)
-                                case 2:
-                                    usuario = input("Escriba su usuario: ")
-                                    contraseña = cifrar(obtener_calve("Escriba su contraseña: "))
-                                    if usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
-                                            print("usuario valido, bienvenido")
-                                            if l_estudiante[usuario]['carrera'] in l_cursos[opt_cursos]['carreras']:
-                                                print("su carrera es valida para este curso")
-                                                l_estudiante[usuario]["cursos reprobados"]=l_cursos[opt_cursos]
-                                                sleep(2)
-                                                print ("""
-                                                se ha agregado el curso reprobado a su registro:
-                                            
-                                                 """)
-                                                print (l_estudiante[usuario])
-                                                sleep (5) 
-                                            else:
-                                                print("lo sentimos, no es posible registrar este curso, pues no pertenece a su carrera")
-                                                sleep(3)
-                                    else:
-                                            print("usuario o contraseña invalida")
-
-
-
-                                    print (l_estudiante)   
-                        case 2:
-                            print ("recuerda llevarlo pronto")
-                            usuario = input("Escriba su usuario: ")
-                            contraseña = cifrar(obtener_calve("Escriba su contraseña: "))
-                            if usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
-                              print("usuario valido, bienvenido")
-                              if l_estudiante[usuario]['carrera'] in l_cursos[opt_cursos]['carreras']:
-                                print("su carrera es valida para este curso")
-                                l_estudiante[usuario]["cursos faltantes"]=l_cursos[opt_cursos]
-                                sleep(3)
-                                print ("""
-                                  se ha agregado el curso pendiente a su registro:
-            
-                                 """)
-                                print (l_estudiante[usuario])
-                                sleep (3) 
-                              else:
-                                    print("lo sentimos, no es posible registrar este curso, pues no pertenece a su carrera")
-                                    sleep(3)
-                            else:
-                              print("usuario o contraseña invalida")
-                            print (l_estudiante)
-    print (l_estudiante)
+def agregar_cursos_estudiante(l_estudiante,l_cursos):
+   print(l_cursos)
+   l_cursos_estu = {}
+   continuar = True
+   while continuar:
+      print("Estos son los cursos disponibles: ")
+      print(l_cursos)
+      item = int(input('Seleccione la posición en la que se encuentra en la lista anterior, el curso que desea matricular: '))
+      item=int(item)
+      curso_escogido=l_cursos[item]
+      l_cursos_estu[item] = curso_escogido
+      continuar = input('¿Quieres añadir otro curso a tu registro (Si/No)? ') == "Si"
+   for item in l_cursos_estu.items():
+      print("""Esta es la lista completa de cursos que seleccionaste para agregar en tu registro:
+      """)
+      print(l_cursos_estu)
+   usuario = input("Escriba su usuario: ")
+   usuario=usuario
+   l_estudiante[usuario]["cursos registrados: "]=l_cursos_estu
+   print("""
+      Este es su nuevo registro:
+      """)
+   print(l_estudiante[usuario])
+   sleep(2)
+   print("""
+   Volviendo al menu.........""")
+   sleep(2)
+   print(inicio_estudiante_cc (l_estudiante,l_cursos)) 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------FUNCION PARA QUE UN ESTUDIANTE SE REGISTRE------------------------------------------------------------------------
