@@ -38,5 +38,5 @@ l_actividades={
 } 
 l_carreras=("Administración de empresas","Agronomía","Ing.Computación","Ing.Electrónica") 
 
-
+#-------------------------------Ejecutar programa desde este archivo-------------------------------------------------------
 menu.menu_principal(l_admin,l_estudiante,l_cursos,l_carreras,dict_actividades)
