@@ -360,6 +360,8 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
                    mostrar_estudiante(l_estudiante) 
               case 3:    
                   agregar_cursos_estudiante(l_cursos,l_estudiante)
+              case 4:
+                  agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante)    
               case 6:
                   agregar_actividades_estudiante(dict_actividades,l_estudiante) 
               case 7:
@@ -378,7 +380,7 @@ def agregar_cursos_estudiante(l_cursos,l_estudiante):
       """)
       print(l_cursos)
       print("")
-      item1 = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior: '))
+      item1 = int(input('Seleccione la posición en la que se encuentra el curso que desea añadir a su registro según la lista anterior(ejemplo:el primer curso que aparece en la lista es la posición 0): '))
       item1=int(item1)
       curso_escogido=l_cursos[item1]
       l_cursos_estu[item1] = curso_escogido
@@ -401,6 +403,50 @@ def agregar_cursos_estudiante(l_cursos,l_estudiante):
       #usuario valido
       #""")
    l_estudiante[usuario]["cursos: "]=l_cursos_estu
+   print("""
+      Este es su nuevo registro:
+      """)
+   print(l_estudiante[usuario])
+   sleep(2)
+   print("""
+   Volviendo al menu.........""")
+   sleep(2)
+   print(inicio_estudiante_cc (l_estudiante,l_cursos))
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------FUNCION PARA QUE EL ESTUDIANTE MATRICULE UN CURSO COMO APROBADO---------------------------------------------------
+def agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante):
+   l_cursos_estu_aprobados={}
+   continuar=True
+   while continuar:
+      print("""
+      Estos son los cursos disponibles por el momento:
+      
+      """)
+      print(l_cursos)
+      print("")
+      item2 = int(input('Seleccione la posición en la que se encuentra el curso que desea añadir como aprobado a su registro según la lista anterior (ejemplo:el primer curso que aparece en la lista es la posición 0): '))
+      item2=int(item2)
+      curso_escogido_aprobado=l_cursos[item2]
+      l_cursos_estu_aprobados[item2] = curso_escogido_aprobado
+      print("")
+      continuar = input('¿Quieres añadir otro curso aprobado a tu registro (Si/No)? ') == "Si"
+   for item2 in l_cursos_estu_aprobados.items():
+      print("""
+      esta es la lista de cursos que escogió agregar a su registro como aprobado:
+      
+      """,l_cursos_estu_aprobados, """
+      
+      """)
+
+   usuario = input("Escriba su usuario: ")
+   usuario=usuario
+   print(l_estudiante[usuario])
+   #contraseña = input("Escriba su contraseña: ")
+   #for usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
+      #print("""
+      #usuario valido
+      #""")
+   l_estudiante[usuario]["cursos aprobados: "]=l_cursos_estu_aprobados
    print("""
       Este es su nuevo registro:
       """)
