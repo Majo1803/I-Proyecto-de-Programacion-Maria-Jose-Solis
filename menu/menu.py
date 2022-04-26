@@ -393,7 +393,9 @@ def agregar_cursos_estudiante(l_cursos,l_estudiante):
                    match opt_registrar_cursos_tipo:
                        case 1:
                            agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante)
-
+                       case 2:    
+                            agregar_cursos_reprobados_estudiante(l_cursos,l_estudiante)
+                            
    for item1 in l_cursos_estu.items():
       print("""
       esta es la lista de cursos que escogió agregar a su registro:
@@ -465,6 +467,49 @@ def agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante):
    sleep(2)
    print(inicio_estudiante_cc (l_estudiante,l_cursos))
 #---------------------------------------------------------------------------------------------------------------------------------------------------
+#--------------------------------FUNCION PARA QUE EL ESTUDIANTE MATRICULE UN CURSO COMO REPROBADO---------------------------------------------------
+def agregar_cursos_reprobados_estudiante(l_cursos,l_estudiante):
+   l_cursos_estu_reprobados={}
+   continuar=True
+   while continuar:
+      print("""
+      Estos son los cursos disponibles por el momento:
+      
+      """)
+      print(l_cursos)
+      print("")
+      item3 = int(input('Por favor, seleccione de nuevo la posición en la que se encuentra el curso que desea añadir como reprobado a su registro según la lista anterior (ejemplo:el primer curso que aparece en la lista es la posición 0): '))
+      item3=int(item3)
+      curso_escogido_reprobado=l_cursos[item3]
+      l_cursos_estu_reprobados[item3] = curso_escogido_reprobado
+      print("")
+      continuar = input('¿Quieres añadir otro curso aprobado a tu registro (Si/No)? ') == "Si"
+   for item3 in l_cursos_estu_reprobados.items():
+      print("""
+      esta es la lista de cursos que escogió agregar a su registro como reprobado:
+      
+      """,l_cursos_estu_reprobados, """
+      
+      """)
+
+   usuario = input("Escriba su usuario: ")
+   usuario=usuario
+   print(l_estudiante[usuario])
+   #contraseña = input("Escriba su contraseña: ")
+   #for usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
+      #print("""
+      #usuario valido
+      #""")
+   l_estudiante[usuario]["cursos reprobados: "]=l_cursos_estu_reprobados
+   print("""
+      Este es su nuevo registro:
+      """)
+   print(l_estudiante[usuario])
+   sleep(2)
+   print("""
+   Volviendo al menu.........""")
+   sleep(2)
+   print(inicio_estudiante_cc (l_estudiante,l_cursos))
 #---------------------------------FUNCION PARA QUE UN ESTUDIANTE SE REGISTRE------------------------------------------------------------------------
 #NOTA: Esta función solo registrará el nombre de usuario,nombre completo y contraseña del estudiante, el registro de las carreras que desee matrícular se hará cuando el estudiante ya tenga una cuenta en el sistema
 
