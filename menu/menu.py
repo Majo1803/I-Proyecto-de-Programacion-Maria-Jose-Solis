@@ -348,7 +348,8 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
        print ("2) Ver mi registro ")
        print ("3) Ver lista de cursos disponibles y registrar cursos")
        print ("4) Agregar lista de posibles actividades")
-       print ("5) Generar reporte de actividades")
+       print ("5) Agregar actividades a mi registro")
+       print ("6) Generar reporte de actividades")
        opt_estudiante=int (input("\n\n\tQué desea: "))
        match opt_estudiante:
               case 1:
@@ -369,6 +370,8 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
                    case 2:
                     agregar_registro_posibles_actividades_académica (l_actividades_academicas,l_cursos,l_estudiante)
               case 5:
+                    agregar_actividades_registro(l_estudiante,l_actividades)
+              case 6:
                    reporte(l_estudiante)  
 #----------------------------------------------------------------------------------------------------------------------------------------
 #****************************************************************************************************************************************
@@ -705,7 +708,43 @@ def lista(l_actividades):
    l_actividades=[l_actividades_recreativas] +[l_actividades_academicas]
    print(l_actividades)
 
-             
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------AGREGAR ACTIVIDADES-----------------------------------------------------------------------
+def agregar_actividades_registro(l_estudiante,l_actividades):
+   print(l_actividades)
+   continuar=True
+   while continuar:
+      print("""
+      Estos son las actividades disponibles por el momento:
+      
+      """)
+      
+      print("")
+      item = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior: '))
+      item=int(item)
+      actividad_escogida=l_actividades[item]
+      l_actividades_estu[item] = actividad_escogida
+      print("")
+      continuar = input('¿Quieres añadir otra carrera a tu registro (Si/No)? ') == "Si"
+   for item in l_actividades_estu.items():
+      print("""
+      esta es la lista de carreras que escogió agregar a su registro:
+      
+      """,l_actividades_estu, """
+      
+      """)
+
+   usuario = input("Escriba su usuario: ")
+   for  usuario in l_estudiante:
+      for l_actividades_estu in l_estudiante[usuario]['cursos actuales: ']["horario"]:
+       print ("no valido")  
+      else:
+         if l_actividades_estu not in l_estudiante[usuario]['cursos actuales: ']:
+            print("valida")
+            l_estudiante[usuario]['actividades'] = l_actividades_estu
+   print("""
+   Volviendo al menu.........""")
+   print(inicio_estudiante_cc (l_estudiante,l_cursos))             
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------FUNCIÓN DE REPORTE DE ACTIVIDADES------------------------------------------------------------
 def reporte(l_estudiante):
@@ -731,7 +770,7 @@ def reporte(l_estudiante):
         Estas son sus actividades registradas
 
         """)
-        print(l_estudiante["actividades"])
+        print(l_estudiante[usuario]['actividades'])
         
 
 
