@@ -347,11 +347,8 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
        print ("1) Agregar carreras a mi registro ")
        print ("2) Ver mi registro ")
        print ("3) Ver lista de cursos disponibles y registrar cursos")
-       print ("4) Ver lista de cursos y registrar cursos aprobados")
-       print ("5) Ver lista de cursos y registrar cursos reprobados")
-       print ("6) Ver lista de cursos y registrar cursos pendientes")
-       print ("7) Agregar actividades a mi registro")
-       print ("8) Generar reporte de actividades")
+       print ("4) Agregar actividades a mi registro")
+       print ("5) Generar reporte de actividades")
        opt_estudiante=int (input("\n\n\tQué desea: "))
        match opt_estudiante:
               case 1:
@@ -359,12 +356,10 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
               case 2:
                    mostrar_estudiante(l_estudiante) 
               case 3:    
-                  agregar_cursos_estudiante(l_cursos,l_estudiante)
+                  agregar_cursos_estudiante(l_cursos,l_estudiante)  
               case 4:
-                  agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante)    
-              case 6:
                   agregar_actividades_estudiante(dict_actividades,l_estudiante) 
-              case 7:
+              case 5:
                    reporte(l_estudiante)  
 #----------------------------------------------------------------------------------------------------------------------------------------
 #****************************************************************************************************************************************
@@ -382,10 +377,23 @@ def agregar_cursos_estudiante(l_cursos,l_estudiante):
       print("")
       item1 = int(input('Seleccione la posición en la que se encuentra el curso que desea añadir a su registro según la lista anterior(ejemplo:el primer curso que aparece en la lista es la posición 0): '))
       item1=int(item1)
-      curso_escogido=l_cursos[item1]
-      l_cursos_estu[item1] = curso_escogido
-      print("")
-      continuar = input('¿Quieres añadir otra carrera a tu registro (Si/No)? ') == "Si"
+      opt_registrar_cursos=int(input("Desea agregar este curso a su registro? digite 1 para Si o 2 para no: "))
+      match opt_registrar_cursos:
+         case 1:
+                curso_escogido=l_cursos[item1]
+                l_cursos_estu[item1] = curso_escogido
+                print("")
+                continuar = input('¿Quieres añadir otra carrera a tu registro (Si/No)? ') == "Si"
+         case 2:
+              opt_cursos_ya_llevados=int(input("Ya has llevado este curso? digite 1 para Si o 2 para no"))
+              opt_cursos_ya_llevados=int(opt_cursos_ya_llevados)
+              match opt_cursos_ya_llevados:
+                  case 1:
+                   opt_registrar_cursos_tipo=int(input("Lo aprobaste o reprobaste? digite 1 para aprobado o 2 para reprobado"))    
+                   match opt_registrar_cursos_tipo:
+                       case 1:
+                           agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante)
+
    for item1 in l_cursos_estu.items():
       print("""
       esta es la lista de cursos que escogió agregar a su registro:
@@ -424,7 +432,7 @@ def agregar_cursos_aprobados_estudiante(l_cursos,l_estudiante):
       """)
       print(l_cursos)
       print("")
-      item2 = int(input('Seleccione la posición en la que se encuentra el curso que desea añadir como aprobado a su registro según la lista anterior (ejemplo:el primer curso que aparece en la lista es la posición 0): '))
+      item2 = int(input('Por favor, seleccione de nuevo la posición en la que se encuentra el curso que desea añadir como aprobado a su registro según la lista anterior (ejemplo:el primer curso que aparece en la lista es la posición 0): '))
       item2=int(item2)
       curso_escogido_aprobado=l_cursos[item2]
       l_cursos_estu_aprobados[item2] = curso_escogido_aprobado
@@ -493,7 +501,7 @@ def agregar_carreras_estudiante(l_carreras,l_estudiante):
       """)
       print(l_carreras)
       print("")
-      item = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior: '))
+      item = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior(ejemplo:el primer curso que aparece en la lista es la posición 0): '))
       item=int(item)
       carrera_escogida=l_carreras[item]
       l_carreras_estu[item] = carrera_escogida
