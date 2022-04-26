@@ -368,25 +368,39 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
 #****************************************************************************************************************************************
 
 #----------------------------FUNCION PARA QUE EL ESTUDIANTE MATRICULE UN CURSO-----------------------------------------------------------
-def agregar_cursos_estudiante(l_estudiante,l_cursos):
-   print(l_cursos)
-   l_cursos_estu = {}
-   continuar = True
+def agregar_cursos_estudiante(l_cursos,l_estudiante):
+   l_cursos_estu={}
+   continuar=True
    while continuar:
-      print("Estos son los cursos disponibles: ")
-      print(l_cursos)
-      item = int(input('Seleccione la posición en la que se encuentra en la lista anterior, el curso que desea matricular: '))
-      item=int(item)
-      curso_escogido=l_cursos[item]
-      l_cursos_estu[item] = curso_escogido
-      continuar = input('¿Quieres añadir otro curso a tu registro (Si/No)? ') == "Si"
-   for item in l_cursos_estu.items():
-      print("""Esta es la lista completa de cursos que seleccionaste para agregar en tu registro:
+      print("""
+      Estos son los cursos disponibles por el momento:
+      
       """)
-      print(l_cursos_estu)
+      print(l_cursos)
+      print("")
+      item1 = int(input('Seleccione la posición en la que se encuentra la carrera que desea añadir a su registro según la lista anterior: '))
+      item1=int(item1)
+      curso_escogido=l_cursos[item1]
+      l_cursos_estu[item1] = curso_escogido
+      print("")
+      continuar = input('¿Quieres añadir otra carrera a tu registro (Si/No)? ') == "Si"
+   for item1 in l_cursos_estu.items():
+      print("""
+      esta es la lista de cursos que escogió agregar a su registro:
+      
+      """,l_cursos_estu, """
+      
+      """)
+
    usuario = input("Escriba su usuario: ")
    usuario=usuario
-   l_estudiante[usuario]["cursos registrados: "]=l_cursos_estu
+   print(l_estudiante[usuario])
+   #contraseña = input("Escriba su contraseña: ")
+   #for usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
+      #print("""
+      #usuario valido
+      #""")
+   l_estudiante[usuario]["cursos: "]=l_cursos_estu
    print("""
       Este es su nuevo registro:
       """)
@@ -395,8 +409,7 @@ def agregar_cursos_estudiante(l_estudiante,l_cursos):
    print("""
    Volviendo al menu.........""")
    sleep(2)
-   print(inicio_estudiante_cc (l_estudiante,l_cursos)) 
-
+   print(inicio_estudiante_cc (l_estudiante,l_cursos))
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------FUNCION PARA QUE UN ESTUDIANTE SE REGISTRE------------------------------------------------------------------------
 #NOTA: Esta función solo registrará el nombre de usuario,nombre completo y contraseña del estudiante, el registro de las carreras que desee matrícular se hará cuando el estudiante ya tenga una cuenta en el sistema
