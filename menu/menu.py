@@ -347,7 +347,7 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
        print ("1) Agregar carreras a mi registro ")
        print ("2) Ver mi registro ")
        print ("3) Ver lista de cursos disponibles y registrar cursos")
-       print ("4) Agregar actividades a mi registro")
+       print ("4) Agregar lista de posibles actividades")
        print ("5) Generar reporte de actividades")
        opt_estudiante=int (input("\n\n\tQué desea: "))
        match opt_estudiante:
@@ -358,7 +358,16 @@ def inicio_estudiante_cc (l_estudiante,l_cursos):#la "cc" significa "con cuenta"
               case 3:    
                   agregar_cursos_estudiante(l_cursos,l_estudiante)  
               case 4:
-                  agregar_actividades_estudiante(dict_actividades,l_estudiante) 
+                  print ("""La actividad a registrar es una actividad
+   1) recreativa 😎
+   2) académica 🤓
+   """)
+                  opt_tipo_de_actividad=int(input("Dijite el número de la opción correcta: "))
+                  match opt_tipo_de_actividad:
+                   case 1:
+                    agregar_registro_posibles_actividades_recreativas (l_actividades_recreativas)
+                   case 2:
+                    agregar_registro_posibles_actividades_académica (l_actividades_academicas,l_cursos,l_estudiante)
               case 5:
                    reporte(l_estudiante)  
 #----------------------------------------------------------------------------------------------------------------------------------------
@@ -601,253 +610,101 @@ def autenticacion_estudiante (l_estudiante):
                 case 2:
                     print("gracias por usar el sistema")          
 #---------------------------------------------------------------------------------------------------------------------------------------------------   
-# ------------------------------FUNCION PARA EL REGISTRO DE ACTIVIDADES-----------------------------------------------------------------------------
-dict_actividades={}
-def agregar_actividades_estudiante(dict_actividades,l_estudiante):
-   print ("""La actividad a registrar es una actividad
-   1) recreativa 😎
-   2) académica 🤓
-   """)
-   opt_tipo_de_actividad=int(input("Dijite el número de la opción correcta: "))
-   match opt_tipo_de_actividad:
-      case 1:
-            print ("-------------🪅REGISTRO DE ACTIVIDAD RECREATIVA🪅-----------------")
-            print ("""
+# ------------------------------FUNCION PARA EL REGISTRO DE POSIBLES ACTIVIDADES-----------------------------------------------------------------------------
+l_actividades=[]
+l_actividades_recreativas={}
+l_actividades_academicas={}
+#----------------------------ACTIVIDADES RECREATIVAS-----------------------------------------------------
+def agregar_registro_posibles_actividades_recreativas (l_actividades_recreativas): 
+    print ("-------------🪅REGISTRO DE POSIBLE ACTIVIDAD RECREATIVA🪅-----------------")
+    print ("""
             Para el registro de la actividad que desea realizar, por favor brindenos los siguientes datos 🖍: 
             """)
-            numero_actividad=input("Escriba un numero de actividad para poder empezar a registrarla (Ejemplo: actividad 1):  ")
-            dict_actividades[numero_actividad]={}
-            dict_actividades[numero_actividad]['actividad a realizar'] = input("Escriba la actividad que va a realizar: ")
-            dict_actividades[numero_actividad]['fecha de inicio'] = input('\n Ingrese una fecha de inicio en formato "aaaa/mm/dd"...: ')
-            dict_actividades[numero_actividad]['fecha de inicio']= datetime.strptime(dict_actividades[numero_actividad]['fecha de inicio'], '%Y/%m/%d').strftime('%d-%m-%Y')
-            dict_actividades[numero_actividad]['fecha de finalización'] = input('\n Ingrese una fecha de finalizacion en formato "aaaa/mm/dd"...: ')
-            dict_actividades[numero_actividad]['fecha de finalización']= datetime.strptime(dict_actividades[numero_actividad]['fecha de finalización'], '%Y/%m/%d').strftime('%d-%m-%Y')
-            dict_actividades[numero_actividad]['horario'] = input("Escriba el día y la hora de la actividad (Ejemplo: Lunes de 7 p.m a 8 p.m): ")
-            print(dict_actividades[numero_actividad])
-            print ("""------------------🧐validando registro de la actividad 🧐-------------------""")
-            usuario = input("Escriba su usuario: ")
-            for usuario in l_estudiante :
-                     print("""
-                     ¡¡Usuario valido!!
-                     """)
-                     print (l_estudiante[usuario])
-                     if dict_actividades[numero_actividad]['fecha de inicio'] in l_estudiante[usuario]["cursos actuales: "]:
-                        if dict_actividades[numero_actividad]['horario'] in l_estudiante[usuario]["cursos actuales: "]["horario"]:
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                        else:  
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
+    l_actividades=[]
+    actividad= input("Escriba una clave para la actividad (ejemplo: actividad1): ")
+    l_actividades_recreativas[actividad] = {} 
+    l_actividades_recreativas[actividad]['nombre'] = input("Escriba el nombre de la actividad: ")
+    l_actividades_recreativas[actividad]['nombre']=l_actividades_recreativas[actividad]['nombre']
+    l_actividades_recreativas[actividad]['fecha inicio'] = input("Escriba la fecha inicio en formato dd-mm-aaaa: ")
+    l_actividades_recreativas[actividad]['fecha final'] = input("Escriba la fecha final en formato dd-mm-aaaa: ")
+    l_actividades_recreativas[actividad]['horario'] = input("Escriba el horario: ")
 
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)   
-                              l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                              print (l_estudiante)
-                              sleep(2)
-                              print (l_estudiante)
-                              print("""
-                              
-                              Desea registrar otra actividad
-                              1)si
-                              2)no
-                            
-                              """)
-                              opt_otra_actividad=int(input("Dijite la opción"))
-                              match opt_otra_actividad:
-                                  case 1:
-                                      agregar_actividades_estudiante(dict_actividades,l_estudiante)
-                                  case 2:
-                                      inicio_estudiante_cc(l_estudiante,l_cursos)
-                     else:
-                        if dict_actividades[numero_actividad]['fecha de finalización'] in l_estudiante[usuario]["cursos actuales: "]:
-                           if dict_actividades[numero_actividad]['horario'] in l_estudiante[usuario]["cursos actuales: "]["horario"]:
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                           else:
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
 
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)
-                              sleep(2)
-                              l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                              sleep(2)
-                              print (l_estudiante)
-                              print("""
-                              
-                              Desea registrar otra actividad
-                              1)si
-                              2)no
-                            
-                              """)
-                              opt_otra_actividad=int(input("Dijite la opción"))
-                              match opt_otra_actividad:
-                                  case 1:
-                                      agregar_actividades_estudiante(dict_actividades,l_estudiante)
-                                  case 2:
-                                      print(inicio_estudiante_cc(l_estudiante,l_cursos))
-                        else:
-                             print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
+    print ("""Registro creado:
+     """)
+    print(l_actividades_recreativas[actividad]) 
+    print ("""
+    Lista de actividades de su interes ahora:
+     """)
+    l_actividades.append(l_actividades_recreativas) 
+    print(lista(l_actividades))
 
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)     
-                             sleep(2)
-                             l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                             sleep(2)
-                             print (l_estudiante)
-                             print("""
-                              
-                              Desea registrar otra actividad
-                              1)si
-                              2)no
-                            
-                              """)
-                             opt_otra_actividad=int(input("Dijite la opción"))
-                             match opt_otra_actividad:
-                                  case 1:
-                                      agregar_actividades_estudiante(dict_actividades,l_estudiante)
-                                  case 2:
-                                      inicio_estudiante_cc(l_estudiante,l_cursos)
-                     if dict_actividades[numero_actividad]['fecha de inicio'] in l_estudiante[usuario]["actividades"]:      
-                         if dict_actividades[numero_actividad]['horario'] in l_estudiante[usuario]["actividades"]: 
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                         else:
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
+    print ("""
+    Desea continuar
+    
+    """)
+    print("1)si")
+    print("2)no")
+    opt_continuar=int(input("\n\n\tDijite la opcion: "))
+    match opt_continuar:
+                case 1:
+                     inicio_estudiante_cc (l_estudiante,l_cursos)
 
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)   
-                              l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                              sleep(2)
-                             
-                              print (l_estudiante)
-                              print("""
-                              
-                              Desea registrar otra actividad
-                              1)si
-                              2)no
-                            
-                              """)
-                              opt_otra_actividad=int(input("Dijite la opción"))
-                              match opt_otra_actividad:
-                                  case 1:
-                                      agregar_actividades_estudiante(dict_actividades,l_estudiante)
-                                  case 2:
-                                      inicio_estudiante_cc(l_estudiante,l_cursos)
-                     else:
-                        if dict_actividades[numero_actividad]['fecha de finalización'] in l_estudiante[usuario]["actividades"]:      
-                         if dict_actividades[numero_actividad]['horario'] in l_estudiante[usuario]["actividades"]["horario"]: 
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                         else:
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
-
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)   
-                              sleep(2)
-                              l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                              sleep(2)
-                              print (l_estudiante)
-                              print("""
-                              
-                              Desea registrar otra actividad
-                              1)si
-                              2)no
-                            
-                              """)
-                              opt_otra_actividad=int(input("Dijite la opción"))
-                              match opt_otra_actividad:
-                                  case 1:
-                                      agregar_actividades_estudiante(dict_actividades,l_estudiante)
-                                  case 2:
-                                      inicio_estudiante_cc(l_estudiante,l_cursos)    
-
-                     l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                     print (l_estudiante)
-            else:
-                     print("usuario o contraseña invalida")
-      case 2:
-         usuario = input("Escriba su usuario: ")
-         for usuario in l_estudiante:
-                     print("""
-                     ¡¡Usuario valido!!
-                     """)
-                     print (l_estudiante[usuario])
-         print ("Para registrar una actividad académica, dedes asociarla a un curso que estés llevando")
-         curso_para_actividad=input("por favor indique el nombre del curso con el que desea asociar esta actividad: ")
-         if curso_para_actividad in l_estudiante[usuario]["cursos"]["nombre"]:
-            print ("curso valido")
-            print("""
-            Brindanos los siguientes datos para el registro por favor
+#----------------------------ACTIVIDADES ACADEMICAS-----------------------------------------------------
+def agregar_registro_posibles_actividades_académica (l_actividades_academicas,l_cursos,l_estudiante): 
+    print ("-------------🤓REGISTRO DE POSIBLE ACTIVIDAD ACADEMICA🤓-----------------")
+    print ("""
+            Para el registro de la actividad que desea realizar, por favor brindenos los siguientes datos 🖍: 
             """)
-            tipo_actividad=input("Escriba el tipo de actividad para poder empezar a registrarla (Ejemplo: proyecto,tarea,repaso):  ")
-            tipo_actividad=tipo_actividad
-            dict_actividades[tipo_actividad]={}
-            dict_actividades[tipo_actividad]['actividad a realizar'] = input("Escriba la actividad que va a realizar (Ejemplo:Tarea Matemática): ")
-            dict_actividades[tipo_actividad]["curso asociado"]=curso_para_actividad
-            dict_actividades[tipo_actividad]['fecha de inicio'] = input('\n Ingrese una fecha de inicio en formato "aaaa/mm/dd": ')
-            dict_actividades[tipo_actividad]['fecha de inicio']= datetime.strptime(dict_actividades[tipo_actividad]['fecha de inicio'], '%Y/%m/%d').strftime('%d-%m-%Y')
-            dict_actividades[tipo_actividad]['fecha de finalización'] = input('\n Ingrese una fecha de finalizacion en formato "aaaa/mm/dd": ')
-            dict_actividades[tipo_actividad]['fecha de finalización']= datetime.strptime(dict_actividades[tipo_actividad]['fecha de finalización'], '%Y/%m/%d').strftime('%d-%m-%Y')
-            dict_actividades[tipo_actividad]['horario'] = input("Escriba el día y la hora en la que realizará la actividad (Ejemplo: Lunes de 7 a 8 p.m): ")
-            dict_actividades[tipo_actividad]['semana']=int(input("Escriba el número de la semana lectiva en la que realizará la actividad: "))
-            print ("""------------------🧐validando registro de la actividad 🧐-------------------""")
-            usuario = input("Escriba su usuario: ")
-            contraseña =input("Escriba su contraseña: ")
-            if usuario in l_estudiante and contraseña == l_estudiante[usuario]['password']:
-                     print("""
-                     ¡¡Usuario valido!!
-                     """)
-                     print (l_estudiante[usuario])
-                     if dict_actividades[tipo_actividad]['fecha de inicio'] >= l_estudiante[usuario]["cursos actuales: "]['fech.inicio']:
-                        if dict_actividades[tipo_actividad]['horario'] in l_estudiante[usuario]["cursos actuales: "]['horario']:   
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                        else: 
-                            if dict_actividades[tipo_actividad]['horario'] in l_estudiante[usuario]["actividades"]:  
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")  
-                            else:  
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
+    l_actividades=[]
+    actividad= input("Escriba una clave para la actividad (ejemplo: actividad1): ")
+    l_actividades_academicas[actividad] = {} 
+    l_actividades_academicas[actividad]['nombre'] = input("Escriba el nombre de la actividad: ")
+    l_actividades_academicas[actividad]['nombre']=l_actividades_academicas[actividad]['nombre']
+    l_actividades_academicas[actividad]['fecha inicio'] = input("Escriba la fecha inicio en formato dd-mm-aaaa: ")
+    l_actividades_academicas[actividad]['fecha final'] = input("Escriba la fecha final en formato dd-mm-aaaa: ")
+    l_actividades_academicas[actividad]['horario'] = input("Escriba el horario: ")
+    print("para registrar una actividad académica tiene que vincularla a un curso que lleve en el momento")
+    print(l_cursos)
+    item = int(input('Seleccione el curso,empezando en la posición 0: '))
+    item=int(item)
+    curso_escogido=l_cursos[item]
+    curso_para_actividad=l_cursos[item]
+    print(curso_escogido)
+    usuario = input("Escriba su usuario: ")
+  
+    for  usuario in l_estudiante:
+      for curso_escogido in l_estudiante[usuario]['cursos actuales: ']:
+       print ("valido")  
+       l_actividades_academicas[actividad]['curso'] = curso_para_actividad
+      else:
+         if curso_escogido not in l_estudiante[usuario]['cursos actuales: ']:
+            print("la actividad no está asociada a un curso dentro de sus cursos actuales")
 
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)   
-                              l_estudiante["actividades"]=dict_actividades[tipo_actividad]
-                              print (l_estudiante)     
-                     else:
-                        if dict_actividades[tipo_actividad]['fecha de finalización'] <= l_estudiante[usuario]["cursos actuales: "]['fech.finalización']:
-                           if dict_actividades[tipo_actividad]['horario'] in l_estudiante[usuario]["cursos actuales: "]['horario']:
+    print ("""Registro creado:
+     """)
+    print(l_actividades_academicas[actividad]) 
+    print ("""
+    Lista de actividades de su interes ahora:
+     """)
+    l_actividades.append(l_actividades_academicas) 
+    print(lista(l_actividades))
 
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")
-                           else:
-                               if dict_actividades[tipo_actividad]['horario'] in l_estudiante[usuario]["actividades"]:  
-                                    print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")  
-                               else:  
-                                    print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
+    print ("""
+    Desea continuar
+    
+    """)
+    print("1)si")
+    print("2)no")
+    opt_continuar=int(input("\n\n\tDijite la opcion: "))
+    match opt_continuar:
+                case 1:
+                     inicio_estudiante_cc (l_estudiante,l_cursos)
+#----------UNION DE LAS DICCIONARIOS DE POSIBLES ACTIVIDADES EN UNA LISTA---------------------------------------------
+def lista(l_actividades):
+   l_actividades=[l_actividades_recreativas] +[l_actividades_academicas]
+   print(l_actividades)
 
-                                    ¡QUE TE DIVIERTAS😉!
-                              
-                                    """)   
-                                    l_estudiante["actividades"]=dict_actividades[tipo_actividad]
-                                    print (l_estudiante) 
-                        else:
-                            if dict_actividades[tipo_actividad]['horario'] in l_estudiante[usuario]["actividades"]:  
-                              print ("🥺lo sentimos no se puede registrar la actividad, ya que hay otra actividad o curso en este horario🥺")  
-                            else:  
-                              print ("""actividad valida,no coincide con ninguno de sus cursos registrados u otras actividades.
-
-                              ¡QUE TE DIVIERTAS😉!
-                              
-                              """)   
-                              l_estudiante["actividades"]=dict_actividades[tipo_actividad]
-                              print (l_estudiante)    
-
-                        l_estudiante["actividades"]=dict_actividades[numero_actividad]
-                        print (l_estudiante)
-         else:
-            print ("lo sentimos, el curso que introdujo no se encuentra en el registro de sus cursos") 
-         if curso_para_actividad in l_estudiante[usuario]["cursos aprobados: "]: 
-            print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra aprobado")
-         if curso_para_actividad in l_estudiante[usuario]["cursos reprobados: "]: 
-            print ("no es posible que registre esta actividad, el curso al que está asociado ya se encuentra reprobado")
              
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------FUNCIÓN DE REPORTE DE ACTIVIDADES------------------------------------------------------------
@@ -925,6 +782,7 @@ l_actividades={
 #---------------Tupla de carreras------------------------------------------------------------------------------------------------------------
 
 l_carreras=("Administración de empresas","Agronomía","Ing.Computación","Ing.Electrónica") 
+
 # ------------------------------------------FUNCIÓN DEL MENÚ----------------------------------------------------------------------------------
 def menu_principal (l_admin,l_estudiante,l_cursos,l_carreras,dict_actividades):
     while True:
@@ -934,7 +792,7 @@ def menu_principal (l_admin,l_estudiante,l_cursos,l_carreras,dict_actividades):
                   ⏳Bienvenido a su administrador del tiempo⏳
                   *********************************************  
         
-        Cuenta usted con algún registro?:
+        Cuenta usted con algún registro previo?:
 
         """)
         print("1) Si")

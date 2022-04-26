@@ -3,6 +3,7 @@ from utils.utils import cifrar
 
 import menu.menu as menu
 
+#------------------------------------------------listas necesitadas por funciones en el menu--------------------------------------------------------
 l_admin={
         "majo": {
             "nombre": "Maria José Solis",
